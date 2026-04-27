@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문제 푸는 요령 — 주제별 정리</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --border: #2a2e3f;
+    --accent1: #f0a500;
+    --accent2: #4fc3f7;
+    --accent3: #a78bfa;
+    --accent4: #f472b6;
+    --accent5: #34d399;
+    --accent6: #fb923c;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --red: #f87171;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    padding-bottom: 80px;
+  }
+
+  /* TOP HEADER */
+  .site-header {
+    background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
+    border-bottom: 2px solid var(--accent1);
+    padding: 28px 24px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.25rem;
+    color: var(--accent1);
+    letter-spacing: -0.01em;
+  }
+  .site-header p {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: 3px;
+  }
+
+  /* NAV PILLS */
+  .nav-bar {
+    overflow-x: auto;
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-bar::-webkit-scrollbar { display: none; }
+  .nav-pill {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-pill:nth-child(1)  { color: var(--accent1); border-color: var(--accent1); }
+  .nav-pill:nth-child(2)  { color: var(--accent2); border-color: var(--accent2); }
+  .nav-pill:nth-child(3)  { color: var(--accent3); border-color: var(--accent3); }
+  .nav-pill:nth-child(4)  { color: var(--accent4); border-color: var(--accent4); }
+  .nav-pill:nth-child(5)  { color: var(--accent5); border-color: var(--accent5); }
+  .nav-pill:nth-child(6)  { color: var(--accent6); border-color: var(--accent6); }
+  .nav-pill:nth-child(7)  { color: var(--accent1); border-color: var(--accent1); }
+  .nav-pill:nth-child(8)  { color: var(--accent2); border-color: var(--accent2); }
+  .nav-pill:nth-child(9)  { color: var(--accent3); border-color: var(--accent3); }
+  .nav-pill:nth-child(10) { color: var(--accent4); border-color: var(--accent4); }
+  .nav-pill:nth-child(11) { color: var(--accent5); border-color: var(--accent5); }
+  .nav-pill:active { opacity: 0.6; }
+
+  /* MAIN */
+  main { padding: 0 16px; }
+
+  /* SECTION */
+  .section {
+    margin: 28px 0;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .section-header:active { opacity: 0.7; }
+
+  .sec-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .sec-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    flex: 1;
+  }
+
+  .chevron {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    transition: transform 0.25s;
+  }
+  .section.open .chevron { transform: rotate(180deg); }
+
+  .section-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .section.open .section-body { display: block; }
+
+  /* COLOR ACCENTS PER SECTION */
+  .s1 .section-header { border-left: 4px solid var(--accent1); }
+  .s1 .sec-title { color: var(--accent1); }
+  .s2 .section-header { border-left: 4px solid var(--accent2); }
+  .s2 .sec-title { color: var(--accent2); }
+  .s3 .section-header { border-left: 4px solid var(--accent3); }
+  .s3 .sec-title { color: var(--accent3); }
+  .s4 .section-header { border-left: 4px solid var(--accent4); }
+  .s4 .sec-title { color: var(--accent4); }
+  .s5 .section-header { border-left: 4px solid var(--accent5); }
+  .s5 .sec-title { color: var(--accent5); }
+  .s6 .section-header { border-left: 4px solid var(--accent6); }
+  .s6 .sec-title { color: var(--accent6); }
+  .s7 .section-header { border-left: 4px solid var(--accent1); }
+  .s7 .sec-title { color: var(--accent1); }
+  .s8 .section-header { border-left: 4px solid var(--accent2); }
+  .s8 .sec-title { color: var(--accent2); }
+  .s9 .section-header { border-left: 4px solid var(--accent3); }
+  .s9 .sec-title { color: var(--accent3); }
+  .s10 .section-header { border-left: 4px solid var(--accent4); }
+  .s10 .sec-title { color: var(--accent4); }
+  .s11 .section-header { border-left: 4px solid var(--accent5); }
+  .s11 .sec-title { color: var(--accent5); }
+
+  /* CONTENT BLOCKS */
+  .block {
+    margin-top: 18px;
+  }
+  .block-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  p { margin: 8px 0; font-size: 0.93rem; }
+
+  /* CARD GRID */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .card-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .card-value {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* TABLE */
+  .tbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.86rem;
+  }
+  .tbl th {
+    background: rgba(255,255,255,0.07);
+    padding: 8px 10px;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .tbl td {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .tbl tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* TAG / HIGHLIGHT */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 2px 2px;
+  }
+  .tag-y  { background: rgba(240,165,0,0.18);  color: var(--accent1); }
+  .tag-b  { background: rgba(79,195,247,0.15); color: var(--accent2); }
+  .tag-p  { background: rgba(167,139,250,0.15);color: var(--accent3); }
+  .tag-r  { background: rgba(248,113,113,0.15);color: var(--red); }
+  .tag-g  { background: rgba(52,211,153,0.15); color: var(--accent5); }
+  .tag-o  { background: rgba(251,146,60,0.15); color: var(--accent6); }
+
+  /* RED HIGHLIGHT BOX */
+  .alert-box {
+    background: rgba(248,113,113,0.1);
+    border: 1px solid rgba(248,113,113,0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+  }
+  .alert-box strong { color: var(--red); }
+
+  /* GOLD HIGHLIGHT BOX */
+  .tip-box {
+    background: rgba(240,165,0,0.1);
+    border: 1px solid rgba(240,165,0,0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+  }
+  .tip-box strong { color: var(--accent1); }
+
+  /* BLUE HIGHLIGHT BOX */
+  .info-box {
+    background: rgba(79,195,247,0.08);
+    border: 1px solid rgba(79,195,247,0.25);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+  }
+  .info-box strong { color: var(--accent2); }
+
+  /* GREEN HIGHLIGHT BOX */
+  .green-box {
+    background: rgba(52,211,153,0.08);
+    border: 1px solid rgba(52,211,153,0.25);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+  }
+  .green-box strong { color: var(--accent5); }
+
+  ul, ol { margin-left: 18px; margin-top: 6px; }
+  li { margin: 4px 0; font-size: 0.91rem; }
+
+  .sub { font-size: 0.83rem; color: var(--text-dim); }
+
+  h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 16px 0 8px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  h3::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 14px;
+    background: currentColor;
+    border-radius: 2px;
+    opacity: 0.5;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 16px 0;
+  }
+
+  .q {
+    background: rgba(255,255,255,0.04);
+    border-left: 3px solid var(--accent1);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin: 8px 0;
+    font-size: 0.88rem;
+  }
+  .q .ans { color: var(--accent1); font-weight: 700; }
+
+  /* OPEN ALL BUTTON */
+  .open-all-btn {
+    display: block;
+    width: calc(100% - 32px);
+    margin: 16px auto 0;
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    text-align: center;
+  }
+  .open-all-btn:active { opacity: 0.6; }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <h1>📚 문제 푸는 요령 — 주제별 완전 정리</h1>
+  <p>문제 푸는 요령 해설 (상) · 100페이지 전체</p>
+</div>
+
+<div class="nav-bar">
+  <a class="nav-pill" href="#sec1">🌬️ 풍(風)</a>
+  <a class="nav-pill" href="#sec2">🌡️ 육음</a>
+  <a class="nav-pill" href="#sec3">🫀 장부변증</a>
+  <a class="nav-pill" href="#sec4">💊 방제</a>
+  <a class="nav-pill" href="#sec5">📍 혈자리</a>
+  <a class="nav-pill" href="#sec6">🔗 경락</a>
+  <a class="nav-pill" href="#sec7">👁️ 진단</a>
+  <a class="nav-pill" href="#sec8">🧬 오행치료</a>
+  <a class="nav-pill" href="#sec9">📋 케이스</a>
+  <a class="nav-pill" href="#sec10">🔥 침뜸부항</a>
+  <a class="nav-pill" href="#sec11">🦴 해부</a>
+</div>
+
+<button class="open-all-btn" onclick="toggleAll()">▼ 전체 펼치기 / 접기</button>
+
+<main>
+
+<!-- ===================== 1. 풍 ===================== -->
+<div class="section s1" id="sec1">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">🌬️</span>
+    <span class="sec-title">풍(風) — 풍한·풍열·중풍·피부병</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <div class="block">
+      <div class="block-title">풍의 기본 원리</div>
+      <p>풍에는 8대증상이 있다: <span class="tag tag-y">오풍</span><span class="tag tag-y">발한</span><span class="tag tag-y">두통</span><span class="tag tag-y">신통</span><span class="tag tag-y">면부부종</span><span class="tag tag-y">인양·인통</span><span class="tag tag-y">비색</span><span class="tag tag-y">박태·부맥</span></p>
+      <p>항상 문제엔 키워드가 있다. 오풍·출한이 나오면 → <strong>풍의 8대증상</strong></p>
+      <p>오한발열 = 표증 → 무조건 <span class="tag tag-y">풍한</span> 또는 <span class="tag tag-y">풍열</span></p>
+    </div>
+
+    <hr class="divider">
+
+    <h3>풍한 vs 풍열 구별</h3>
+    <table class="tbl">
+      <tr><th>구분</th><th>풍한</th><th>풍열</th></tr>
+      <tr><td>주요 증상</td><td>불구갈, 인양(가렵다), 부긴</td><td>인통(아프다), 부삭</td></tr>
+      <tr><td>얼굴</td><td>—</td><td>얼굴이 상기됨 (열이 올라가기 때문)</td></tr>
+      <tr><td>방제</td><td>상국음, 은교산</td><td>—</td></tr>
+    </table>
+    <div class="tip-box">
+      <strong>상국음 vs 은교산:</strong> 상국음 = 미미미, 고구설 (미열·미갈·미설흥) → 특히 두통·기침·눈에 잘. 은교산 = 미열·미갈·미설흥 + 고열·구갈·설홍 → 인후종통(특히) + 출혈증상이나 열이 심해야
+    </div>
+    <div class="tip-box">
+      <strong>풍한에 쓰는 침자리 (3풍결합):</strong> 풍부, 풍문, 풍지, 열결, 합곡
+    </div>
+    <div class="alert-box">
+      <strong>풍한속폐 방제:</strong> 계지탕이 최고. 풍한 5대 혈위 = 3풍결합: 풍문·풍지·풍부·열결·합곡
+    </div>
+
+    <hr class="divider">
+
+    <h3>중풍 (3가지만 외우면 OK)</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">1. 열극생풍</div>
+        <div class="card-value">각궁반장, 고열 → 사지도추휵, 경련, 마비 추휵(축), 진전</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2. 혈허생풍</div>
+        <div class="card-value">머리를 떨고 손발을 떠는 사람</div>
+      </div>
+      <div class="card">
+        <div class="card-label">3. 간양화풍 ⭐</div>
+        <div class="card-value">간양상항 → 구안와사, 편마비, 실어증. 이노 번조 이명 불면 두통 현훈 현맥 이롱 홍색 → 간화</div>
+      </div>
+    </div>
+    <p class="sub">참고: 4번째 음허동풍도 있다</p>
+    <div class="tip-box">
+      <strong>암기:</strong> 경련=풍·열, 마비=혈허, 추휵=풍·열, 진전=풍. 다 풍이지만 마비만 혈허로 보면 된다.
+    </div>
+    <div class="alert-box">
+      <strong>간양화풍 방제:</strong> 천마구등음(덜 심하다) / 진간식풍탕(더 심하다, 줄도까지 왔으니까). 의식이 있으면 천마구등음, 없으면 진간. 편두통이 없으면 진간.
+    </div>
+    <p><strong>식풍 vs 거풍:</strong> 식풍 = 내풍. 거풍 = 외풍. 고혈압 = 간양상항 = 내풍 = 식풍.</p>
+    <p>오한발열은 무조건 풍한·풍열 (풍한·풍열은 감기이기 때문에 오한발열이 나와야 함)</p>
+
+    <hr class="divider">
+
+    <h3>피부병 — 담마진(蕁麻疹)</h3>
+    <p>담마진 = 풍진, 루벨라 (담풍이라고 암기법)</p>
+    <p>풍진(風疹) vs 습진(濕疹): 열이 있나 없나의 차이. 열이 있으면 풍진, 없으면 습진 (단풍가서 열받았다)</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>풍진(風疹)</th><th>습진(濕疹)</th></tr>
+      <tr><td>특징</td><td>열 있음, 빠른 발병과 소멸</td><td>가려움(搔痒)이 메인, 열 없음</td></tr>
+      <tr><td>방제</td><td>소풍산</td><td>—</td></tr>
+    </table>
+    <p><strong>라임 vs 옴:</strong> 라임 = 동전형·원형·써클. 옴 = 두줄로 나옴. 두줄=옴, 원형=라임.</p>
+    <div class="tip-box">
+      <strong>소풍산 군약:</strong> 형개/방풍 (풍습 다 잡음). 시험엔 신약 3개: 목석지창고 (목통·석고·지모·창출·고삼)
+    </div>
+    <div class="tip-box">
+      <strong>습진 혈자리:</strong> 삼신합메가 대곡이를 먹어서 혈이 위중해졌다 → 삼음교·신문·대추·곡지·혈해·委中. 3대 혈위 요혈: 혈해·委中·곡지 = 피부병의 3대 혈위
+    </div>
+    <p><strong>소풍산 중 소변으로 열 빼는 본초:</strong> 지모. (이뇨로 목통으로 가는데, 열을 빼는 것 = 지모)</p>
+
+    <hr class="divider">
+
+    <h3>풍을 제거하는 혈자리</h3>
+    <p><strong>3풍 혈자리:</strong> 풍문·봉풍·풍지 (풍 3형제)</p>
+    <div class="q">풍습을 치료하는 혈? <span class="ans">풍지·족삼리·상구·풍문</span></div>
+    <p>풍지가 풍을 잡고, 족삼리·상구가 습을 잡는다.</p>
+    <p><strong>거습 4대혈위:</strong> 음삼수수 = 음릉천·삼초수·수분·수도</p>
+    <p><strong>비기허 6대 혈자리:</strong> 중태족삼비위 = 중완·태백·족삼리·삼음교·비수·위수</p>
+  </div>
+</div>
+
+<!-- ===================== 2. 육음 ===================== -->
+<div class="section s2" id="sec2">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">🌡️</span>
+    <span class="sec-title">육음(六淫) — 풍한서습조화 특징 정리</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <div class="block">
+      <div class="block-title">육음 특징 한눈에</div>
+      <table class="tbl">
+        <tr><th>사기</th><th>핵심 특징</th><th>손상</th></tr>
+        <tr><td><strong>풍(風)</strong></td><td>빠른 변화와 경련, 상부에서 침범</td><td>—</td></tr>
+        <tr><td><strong>한(寒)</strong></td><td>수축견인, 응폐불통 (경락 조체)</td><td>양기 손상</td></tr>
+        <tr><td><strong>서(暑)</strong></td><td>상승과 발산, 항상 밖에서만 옴</td><td>기(氣) 손상</td></tr>
+        <tr><td><strong>습(濕)</strong></td><td>축축·무겁고 점탁, 하체 침범, 기기조체 → 기체·어혈</td><td>양기(습은 음사)</td></tr>
+        <tr><td><strong>조(燥)</strong></td><td>건조, 진액을 잘 손상</td><td>진액 손상 (조가 1등)</td></tr>
+        <tr><td><strong>화(火)</strong></td><td>생풍동혈, 각종 출혈, 정신질환, 담화와 결합</td><td>—</td></tr>
+      </table>
+    </div>
+    <div class="alert-box">
+      <strong>암기:</strong> 서는 절대 안에서 못 만든다. 더위는 밖에서 밖에 안나온다. → 서의 특징: 상승과 발산(답 3번)
+    </div>
+    <div class="tip-box">
+      <strong>오한 vs 외한 vs 양허 구별:</strong> 오한 = 계속 추워야 한다 (시베리아 벌판에 파카를 계속 입어도 추운). 외한·양허 = 조금이라도 히터나 파카 입으면 추운 게 없어짐 (이증)
+    </div>
+
+    <h3>화(火邪) 상세</h3>
+    <p>열이 극심하면 화가 된다. 화는 열을 다 포함하고 있다.</p>
+    <p>출혈 = 화다. 간화·심화가 대표. 심화: 혈뇨. 간화: 객혈(폐결핵)·토혈·변혈·소변피.</p>
+    <p>화의 두 번째 = 정신질환. 화와 담은 잘 결합 → 담화. 습과는 병변 안 일으킴.</p>
+    <div class="alert-box">
+      <strong>습사 특징 틀린 것 (시험):</strong> 습사는 주로 상체로부터 침범한다 → 틀림! 습사는 주로 중초다. 답: 3번
+    </div>
+    <div class="alert-box">
+      <strong>습담 구별:</strong> 습 = 내사·외사 모두. 담 = 외사 절대 없다. 담은 안에서만 만들어진다. 습은 내려간다, 담은 올라간다.
+    </div>
+
+    <h3>소음한화증 (몸이 춥고 떨림, 사지냉, 면색창백)</h3>
+    <p>3대 증상: 단·권·하 (단욕매·권와·하리청곡)</p>
+    <p><strong>단욕매:</strong> 일단 쉬려고 하는 욕망이 강하다. <strong>권와:</strong> 새우잠·웅크리고 잔다. <strong>하리청곡:</strong> 하리=설사, 청=맑을 청, 곡=음식</p>
+    <div class="tip-box"><strong>방제:</strong> 사역탕</div>
+    <p><strong>육경변증에서 가장 위험한 것:</strong> 소음병. 굴음이 아니다. 무조건 소음.</p>
+    <p>소음한화 → 비신양허 → 망양. 한사가 심해서 양기가 다 없어서.</p>
+    <h3>습열온비 (간담습열, 습열온비)</h3>
+    <p>비위에 습과 열이 쌓인 것. 濕熱蘊脾라고 한다.</p>
+    <p>습 → 음삼수수·음릉천·삼초수·수분·수도 / 열끄는 삼총사 → 대추·합곡·곡지 / 비는 중태족삼비위</p>
+  </div>
+</div>
+
+<!-- ===================== 3. 장부변증 ===================== -->
+<div class="section s3" id="sec3">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">🫀</span>
+    <span class="sec-title">장부변증 — 간·심·비·폐·신·담</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>간(肝)</h3>
+    <div class="tip-box">
+      <strong>암기법:</strong> 이번이불두 현현이홍색 → 이노·번조·이명·불면·두통·현훈·현맥·이롱·홍색 = 간화
+    </div>
+    <table class="tbl">
+      <tr><th>증상</th><th>진단</th><th>방제</th></tr>
+      <tr><td>간화 (이번이불두 현현이홍색, 구고, 현삭맥)</td><td>간화상염</td><td>용담사간탕</td></tr>
+      <tr><td>간담습열 (협늑통, 황색대하, 외생식기 가려움)</td><td>간담습열</td><td>용담사간탕, 팔정산</td></tr>
+      <tr><td>간기울결 (스트레스, 간비불화, 현허맥, 유방창통, 월경문제)</td><td>간기울결</td><td>소요산</td></tr>
+      <tr><td>소요산 증: 간비불화, 변비/설사 교대, 현허맥, 유방창통, 월경문제, 구고</td><td>간기울결</td><td>소요산</td></tr>
+    </table>
+    <div class="tip-box">
+      <strong>용담사간탕 증:</strong> 간담습열 / 간화 / 간화범폐. 모두 간에 다 열이 있다. 간화·간화범폐는 피가 나와야 한다. 간담습열은 피가 거의 없다. 간담습열 = 생식기.
+    </div>
+    <div class="info-box">
+      <strong>구고(口苦):</strong> 간심담소. 간화·심화·담화·소양. → 구고 = 간심담소 (All day=간화, 아침=심화)
+    </div>
+    <p><strong>간화 vs 심화 구분:</strong> 간화는 협늑통이 중요하고 구고가 나와야 함. 이번이불두 현현이홍색. 설변이 紅. 현삭맥.</p>
+    <p><strong>심화 vs 소장실열:</strong> 99%는 똑같다. 근데 귀와 목! 잘 안들리면 이롱(간화). 목이 아프면 인후종통(심화→소장). 이거 둘 다 나오면 소장실열, 하나만 나오면 小腸實熱 끝.</p>
+
+    <hr class="divider">
+
+    <h3>심(心)</h3>
+    <table class="tbl">
+      <tr><th>증상</th><th>진단</th><th>방제</th></tr>
+      <tr><td>심불다건기 (심계·불면·다몽·건망·기억력감소)</td><td>심혈허 (심음허 포함)</td><td>귀비탕</td></tr>
+      <tr><td>오심번열·조열·관홍·도한 중 하나나오면</td><td>심음허</td><td>황련아교탕</td></tr>
+      <tr><td>심장만 음허, 심신불교 없이</td><td>심음허만</td><td>황련아교탕</td></tr>
+      <tr><td>신장의 음허만</td><td>신음허</td><td>육미지황탕</td></tr>
+    </table>
+    <div class="tip-box">
+      <strong>심불다건기 암기:</strong> 심계·불면·다몽·건망·기억력감소 = 이런게 나오면 무조건 심혈허·심음허
+    </div>
+    <p><strong>심계 = 동계:</strong> 심장이 쿵쿵. 내과변증중 심계. 낮에 뛰면 심기(양)허, 밤엔 심혈(음)허. 하루종일 뛰면 다 있다는 것.</p>
+    <p><strong>심담기허:</strong> 소심하고 용기가 없고 (담허는 소시지). 심장이 약한 사람은 경계(놀라서 뛰는 것). 정충(판막의 기질적 이상, 부정맥같은 환자). 2008년 시험부터 심계는 동계라고 표현.</p>
+    <p><strong>귀비탕이 답이 되려면:</strong> 심비양허. 심혈허·비기허의 둘 다 허하다. 봉루(비불통혈). 명이 잘 드는 사람.</p>
+    <div class="tip-box"><strong>봉루 암기법:</strong> 봉루는 고귀하다. 기허봉루: 피가 나오는데 열이 없으면 → 귀비탕. 열 있으면 혈열 → 고경환.</div>
+
+    <hr class="divider">
+
+    <h3>비(脾)</h3>
+    <div class="tip-box">
+      <strong>비기허 6대혈:</strong> 중태족삼비위 = 중완·태백·족삼리·삼음교·비수·위수. 방제: 사군자
+    </div>
+    <p><strong>풍릉(비):</strong> 담보다 습을 더 잘 잡는다. 삼음교·태백은 짝꿍. 비기허 6대 혈자리에 들어가니까.</p>
+    <p><strong>치질의 4대혈자리:</strong> 장강·승산·백회·이백 (장승백이 치질에 걸렸다)</p>
+    <p>중기하함 = 보중익기탕. 기허발열이 1번째, 중기하함은 2번째. 치질만 생각하면 안된다.</p>
+    <p>시호·승마는 올리는 약. 시호는 간기울결에 최고. 간 아니면 시호 쓸 필요 없다.</p>
+
+    <hr class="divider">
+
+    <h3>폐(肺)</h3>
+    <table class="tbl">
+      <tr><th>증상</th><th>진단</th><th>방제</th></tr>
+      <tr><td>마른기침 (건해), 피부 건조, 갈증, 목소리 갈라짐</td><td>폐조증 or 폐음허</td><td>상국음·생맥산·패모과루산</td></tr>
+      <tr><td>폐음허 + 고황수(T4옆 3촌)</td><td>폐음허</td><td>맥문동탕</td></tr>
+      <tr><td>페기허 (폐음허 아님), 체음허증상 없음</td><td>폐기허</td><td>—</td></tr>
+    </table>
+    <div class="tip-box">
+      <strong>폐조 5대 穴位 (중삼관이조태했다 암기법):</strong> 중완·삼음교·관원·조해·태연
+    </div>
+    <p><strong>마른기침 방제:</strong> 상국음·생맥산·패모과루산 (딱 3개밖에 없다)</p>
+    <p>폐음허: 오조관도 中 하나 나오면 2번 봐야 하는데 안나온다. 그래서 폐조가 답.</p>
+    <p>페기허 7대: 폐태단기족열 = 폐수·태연·단중·기해·족삼리·열결</p>
+    <p><strong>페음허 방제:</strong> 봉루에 피 날 때 → 귀비탕. 폐기허, 심기허(폐음허) 구분은 중요.</p>
+
+    <hr class="divider">
+
+    <h3>신(腎)</h3>
+    <table class="tbl">
+      <tr><th>증상</th><th>진단</th><th>방제</th></tr>
+      <tr><td>신음허 (조태지: 조해·태계·지실)</td><td>신음허</td><td>六味地黃丸</td></tr>
+      <tr><td>신양허 (명부지: 명문·부류·지실)</td><td>신양허</td><td>金匱腎氣丸</td></tr>
+      <tr><td>신정허 (백대현: 백회·대저·현종)</td><td>腎精虛</td><td>金鎖固精丸</td></tr>
+      <tr><td>신기불고: 신양허와 동일</td><td>신기불고</td><td>금쇄고정환</td></tr>
+      <tr><td>신불납기: 신주·신장</td><td>신불납기</td><td>소자강기탕 / 금궤신기환</td></tr>
+    </table>
+    <div class="tip-box">
+      <strong>신태관 기본혈:</strong> 신장의 공통 문제가 나오면 무조건 腎輸·太谿·關元을 基本으로 넣고. 음허면 조태지, 양허면 명부지 추가. 골에 문제있으면 정허로 백대현. 만성대하·소변자주보고·고삽이 안되면 신양허와 동일한 명부지. 기침 천식 쓰면 신주와 신장.
+    </div>
+    <div class="alert-box">
+      <strong>음허 4대증상 (오조관도):</strong> 오심번열(손바닥·발바닥이 뜨거운 것)·조열·관홍·도한
+    </div>
+    <p><strong>신음허화왕 (신음허화왕 = 음허화왕):</strong> 변화를 일으켰는데 왕성하게. 음허로 인해서 실열처럼 느껴지는 것이 음허화왕. 방제: 지백지황환 (지모·황백 넣은 것)</p>
+    <p><strong>신양허 시험 팁:</strong> 허리가 차고 부종이 있고→ 오른쪽 척맥이 나와야 한다. 우척맥이 나오면 거의 다 신양허. 좌척맥이면 신음이나 방광이다.</p>
+
+    <hr class="divider">
+
+    <h3>담(膽) 관련</h3>
+    <p><strong>만성 임파선염 원인:</strong> 담이 제일 먼저다. 갑상선. 담의 기본방이 이진탕.</p>
+    <p><strong>고환종통:</strong> 간담습열, 한체간맥, 소장기통 밖에 없다. 특히 소장기통이 잘 나온다.</p>
+    <p>대하: 비가 약해서 습이 생기고 오래 되면 열이 나고 하초로 내려간다. 그래서 하초습열로 잡아야 함.</p>
+    <p><strong>학질 (말라리아병):</strong> 48-72시간 더웠다 추웠다. 대추와 도도인 청열혈위.</p>
+  </div>
+</div>
+
+<!-- ===================== 4. 방제 ===================== -->
+<div class="section s4" id="sec4">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">💊</span>
+    <span class="sec-title">방제 — 핵심 처방 총정리</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>사하제 3총사 구별법</h3>
+    <table class="tbl">
+      <tr><th>방제</th><th>복부창만</th><th>덩어리</th><th>구성</th></tr>
+      <tr><td><strong>대승기탕</strong></td><td>○</td><td>○</td><td>대황·망초·후박·지실</td></tr>
+      <tr><td><strong>소승기탕</strong></td><td>○</td><td>△(약함)</td><td>대황·후박·지실 (망초 없다)</td></tr>
+      <tr><td><strong>조위승기탕</strong></td><td>○(없다)</td><td>○</td><td>대황·망초·자감초(꿀로 밀자한)</td></tr>
+    </table>
+    <div class="tip-box">망초는 망치다. 덩어리를 깨뜨리려니까. 망초는 연견산결이라고 한다. 후박이 기체창만의 요약이다.</div>
+
+    <h3>삼황사심탕 (변비 필수)</h3>
+    <p>삼황 = 대황·황금·황연. 변비가 꼭 있어야 함. 쓰리황을 치자. 황금=상초열, 황연=중초열, 황백=하초열. 치자가 삼초경으로써 모든 열 다 쓸 수 있다.</p>
+    <p><strong>삼초 항시치 암기법:</strong> 항부자·시호·치자. 이거 밖에 없다.</p>
+    <p>이 두개가 다 구설생창에 좋고. 도적산 추가 → 황도사가 아구창에 걸렸다. 도적산 = 심화 하주해서 소장실열에 생겼을 때.</p>
+
+    <h3>이진탕 계열</h3>
+    <p>담을 제거하는 기본방 = 이진탕. 중초문제가 있으니까 비허니까, 반진영감은 기본적으로 깔고 들어가야 한다.</p>
+    <p>반하 vs 진피: 반하는 습이 아니라 담이다. 진피는 이기로써 조습(습을 말린다). 반하는 기를 내리는 힘이 좋다. 진피는 이롭게 하기 때문에 막히고 어체 된 것을 풀어준다.</p>
+    <div class="tip-box">반진영감(반하·진피·영지·감초) + 천마·백출 = 반하백출천마탕. + 죽여·지실 = 온담탕. + 패모·과루산 = 패모과루산.</div>
+    <p><strong>복령의 특징:</strong> 카멜레온과 같다. 복령이 진피와 만나면 습을 잘 말린다. 반하와 만나면 담을 제거 잘 함. 당귀와 만나면 보혈. 용안육과 만나면 보혈·비위를 도와준다. 인삼과 만나면 기를 보한다.</p>
+
+    <h3>당뇨 4대 방제</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-label">비기허</div><div class="card-value">사군자</div></div>
+      <div class="card"><div class="card-label">위열</div><div class="card-value">백호탕</div></div>
+      <div class="card"><div class="card-label">신음허</div><div class="card-value">육미지황탕</div></div>
+      <div class="card"><div class="card-label">신양허</div><div class="card-value">금궤신기환</div></div>
+    </div>
+
+    <h3>청호별갑탕 (에이즈 방제)</h3>
+    <p>4대증상: 야열조량·열퇴무한·능식형수·골증조열 (보통 3대까지 시험에 잘 나옴)</p>
+    <p>야열조량: 아침에 춥다, 밤엔 덥다. 열퇴무한: 물질이 없어서 땀이 안난다. 능식형수: 밥을 먹어도 몸이 말라간다. 골증조열: 정강이에서 열이 난다.</p>
+    <div class="tip-box">위→기→영→혈 (온병). 기와 혈이 떨어지기 때문에 설과 맥의 설홍무(소)태·맥세삭은 이게 끝.</div>
+
+    <h3>오령산</h3>
+    <p>3대 증상에 잘 쓴다: 소변불리·부종(수입즉토)·오한발열. 태양축수증이므로, 태양으로 인한 축수증 = 태양이 외감이므로 오한발열.</p>
+
+    <h3>계지복령환 & 혈부축어탕</h3>
+    <p>계지복령환: 하초의 어혈을 잡히면 쓰는 것. 시험엔 잘 나오지만 임상에선 잘 안 씀.</p>
+    <p>상초의 어혈에 血府逐瘀湯. 下腹部 문제 → 桂枝茯苓丸.</p>
+    <p><strong>어혈 6방제:</strong> 도핵승기탕·혈부축어탕·계지복령환·온경탕·생화탕·단삼음의 6개 중에서 딱 나온다.</p>
+
+    <h3>평위산</h3>
+    <p>비위에 습이 있으면 평위산. 비의 습이 문제일 때. 군약은 창출이고 신약 = 후진자백 (후박·진피·자소엽·백芷). 백지가 거습지대 잘 잡는다. 곽향정기산 = 비장의 습 + 외감증상 (오한발열, 오심구토복통설사)</p>
+    <p>비위허한 + 외감 → 곽향정기산 (평위산과 곽향정기산은 다 똑같은데 惡寒發熱이나 감기증상이 보이면 곽향정기산)</p>
+
+    <h3>삼칠 (지혈제)</h3>
+    <p>활혈지혈하는 힘이 있다. 지혈제다. 화상에 되게 좋다. 고구마도 화독을 뺀다. 삼칠은 지혈을 하는데 어혈을 없애면서 지혈을 한다.</p>
+    <p><strong>활혈지혈, 어혈 없애면서 지혈하는 약:</strong> 삼천포 암기법 = 삼칠·천초근·포황. 포황은 응고력을 좋게 한다.</p>
+    <p>삼칠: 1-3그람. 뉴버전은 1-1.5그람.</p>
+
+    <h3>항생제 관련</h3>
+    <p>판람근은 항생제, 진통해열제다. 항생제로는 아목시실린이 대표. 부작용: 위장질환. 항생제가 바로 胃를 공격한다. 알러지 있는 사람도 아목시실린의 부작용 = 오구애액 (오심·구토·애기·애역+복통·설사).</p>
+    <p>항생제는 해독·진통·진균해야 하니까 차가운 약. 그래서 키드니에 양허증상이 많이 나온다. 신양허. 오래 많이 먹으면.</p>
+    <p><strong>아목시실린 먹고 위장장애 부작용 고치는 본초:</strong> 평보소·보화환·소풍산. 항생제 먹고 가렵고 발진(레시) → 소풍산. Rash가 나오면 꼭 소풍산. 식적은 보화환.</p>
+
+    <h3>오미자 & 표증금기</h3>
+    <p>오미자는 표증 금기자 본초. 꼭 외워야 한다. 표증 금기방제: 이중환·생맥산·도핵승기탕·백합고금탕 (이중생도백)</p>
+  </div>
+</div>
+
+<!-- ===================== 5. 혈자리 ===================== -->
+<div class="section s5" id="sec5">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">📍</span>
+    <span class="sec-title">혈자리 — 8회혈·팔맥교회혈·오수혈·육부하합혈·낙혈</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>8회혈 (장·장문·부·중완·기·단중·혈·격수·근·양릉천·맥·태연·골·대저·수·현종)</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-label">장회혈</div><div class="card-value">장문</div></div>
+      <div class="card"><div class="card-label">부회혈</div><div class="card-value">중완</div></div>
+      <div class="card"><div class="card-label">기회혈</div><div class="card-value">단중</div></div>
+      <div class="card"><div class="card-label">혈회혈</div><div class="card-value">격수</div></div>
+      <div class="card"><div class="card-label">근회혈 ⭐</div><div class="card-value">양릉천</div></div>
+      <div class="card"><div class="card-label">맥회혈</div><div class="card-value">태연</div></div>
+      <div class="card"><div class="card-label">골회혈 ⭐</div><div class="card-value">대저</div></div>
+      <div class="card"><div class="card-label">수회혈 ⭐</div><div class="card-value">현종</div></div>
+    </div>
+    <p class="sub">중완 놓으면 육부가 돌아간다. 기를 돌리려면 단중. 8회혈 8번 자침깊이 시험에. 장에 문제가 있으면 무조건 장문 etc. 근·골·수가 3번 나왔다. 골다공증 환자면 대저. 근이나 근육문제면 양릉천 etc.</p>
+
+    <hr class="divider">
+
+    <h3>팔맥교회혈 (8개 필수 암기)</h3>
+    <div class="tip-box"><strong>암기법:</strong> 음유시내관. 내관=음유맥. 공손=충맥(충무공이순신). 후계=독맥(독후감). 신맥=양교맥. 열결=임맥(임을 열열히 사랑한다). 조해=음교맥(음교를 조해해보자). 외관=양유맥. 족임읍=대맥(족임읍은 대맥).</div>
+    <table class="tbl">
+      <tr><th>혈위</th><th>통하는 경맥</th><th>위치 포인트</th></tr>
+      <tr><td>내관</td><td>음유맥</td><td>완횡문 위로 2촌, 요측수근굴근과 장장근건사이</td></tr>
+      <tr><td>공손</td><td>충맥</td><td>제1중족골 기저부 전하연 (전하연이 특히 중요)</td></tr>
+      <tr><td>후계</td><td>독맥</td><td>제 5중수지관절 후연</td></tr>
+      <tr><td>신맥</td><td>양교맥</td><td>외과정하방</td></tr>
+      <tr><td>열결</td><td>임맥</td><td>완횡문상 1.5촌</td></tr>
+      <tr><td>조해</td><td>음교맥</td><td>내과하 1촌</td></tr>
+      <tr><td>외관</td><td>양유맥</td><td>양지상 2촌, 요골과 척골사이</td></tr>
+      <tr><td>족임읍</td><td>대맥</td><td>제4,5중족결합부전방요합중 소지신근건의 외측</td></tr>
+    </table>
+    <p>목구멍이 붓고 아프면 다 열결·조해. 주로 앞쪽이면 열결·조해. 뒤쪽이면 후계·신맥. 옆은 외관·족임읍.</p>
+
+    <hr class="divider">
+
+    <h3>오수혈 & 원낙배혈법</h3>
+    <div class="tip-box">
+      <strong>정형수경합 오수혈 암기법:</strong> 음경: 목화토금수 / 양경: 금수목화토. 음경의 토혈이 수혈 = 원혈. 양경은 수혈과 경혈 사이에 있는 것이 원혈.
+    </div>
+    <p>원낙배혈법 = combination. 원혈 + 락혈. 원혈이 앞(主), 락혈이 뒤(從). 主從관계다.</p>
+    <p>메인은 원혈을 메인으로 잡아야 한다. 폐에 문제: 해수·천식·가래·기단·호흡이 곤란 → 주인인 폐의 원혈 태연. 대장의 락혈 = 편락. 그래서 태연·편락이 답.</p>
+    <div class="tip-box">
+      <strong>폐기허 방제:</strong> 비기허 6대: 중태족삼비위. 폐기허 7대: 폐태단기족열 = 폐수·태연·단중·기해·족삼리·열결.
+    </div>
+
+    <hr class="divider">
+
+    <h3>육부하합혈</h3>
+    <p>수삼양과 족삼양이 상하 배혈하는 방법. 육부는 위·대·소·담·방·삼초. 하합혈은 밑이니까 다리.</p>
+    <table class="tbl">
+      <tr><th>경락</th><th>하합혈</th><th>위치</th></tr>
+      <tr><td>위경(족양명)</td><td>족삼리</td><td>독비 하 3촌</td></tr>
+      <tr><td>대장경</td><td>상거허</td><td>족삼리 하 3촌 (상거허)</td></tr>
+      <tr><td>소장경</td><td>하거허</td><td>상거허 하 3촌 (하거허)</td></tr>
+      <tr><td>담경</td><td>양릉천</td><td>—</td></tr>
+      <tr><td>방광경</td><td>위중</td><td>—</td></tr>
+      <tr><td>삼초경</td><td>위양</td><td>—</td></tr>
+    </table>
+    <p>족삼리는 하합혈이지만 하합혈. 나머지는 위에 있으니까 상합혈이라고 하지 않는다. 그런건 없다.</p>
+    <p>천정과 상응하는 혈? 수소양 하합혈 = 위양. 소해와 상응 = 위중.</p>
+    <p>원근혈 순서: 담→양릉천, 위→족삼리, 대→상거허, 소→하거허. 이게 순서. 시험에 나왔다.</p>
+
+    <hr class="divider">
+
+    <h3>낙혈 & 사총혈 & 4충혈</h3>
+    <div class="tip-box">
+      <strong>사총혈 (결합위족):</strong> 열결·합곡·위중·족삼리. ※열결 = 두항, 합곡 = 안면, 위중 = 요배, 족삼리 = 복부. +내관: 흉부. 삼음교: 소복. 수구: 구급혈.
+    </div>
+    <p><strong>낙혈이 이번에 시험에 3번 나왔다:</strong> ※열결은 두항, 머리와 목까지가 열결이고. 합곡은 안면, 구완와사니까 꼭 합곡을 넣어야. ※위중: 요배. 허리와 등도 들어가야 한다. ※족삼리: 복부.</p>
+    <p><strong>8총혈 (4충혈):</strong> 내관은 흉부. 삼음교는 소복. 수구는 구급혈.</p>
+
+    <hr class="divider">
+
+    <h3>상구(SP-5) & 구허 포인트</h3>
+    <p>상구는 경혈, 구허는 담경의 원혈. 그래서 구허는 잘 쓰는게 담허. 담허를 구허쌓아 먹으라. (암기법)</p>
+    <p>구허 혈자리를 어느때 쓰는가? 트리플 에이일 때. 트리플 에이는 소심, 세밀, 지랄 (암기법; 소세지). 주눅이나 꿈, 우울증이 나오면 간허. 소심이라는 말 나오면 담허.</p>
+    <p>상구(SP-5): 자침깊이 0.2-0.3 많이 안들어간다. 내과전하방. 상구는 음릉천과 짝궁으로 본다.</p>
+
+    <hr class="divider">
+
+    <h3>귀 앞 3혈 (이전 3혈)</h3>
+    <p>이문·청궁·청회 (세로로 배열). 이문=삼소담, 청궁=소, 청회=담. 기본: 0.3-0.5, 딸: 0.5-1.0, 올: 0.5-0.7. 문궁회 삼소담 기딸올</p>
+    <div class="tip-box">TMJ 혈위: 이문·청궁·청회. 기딸올(기본/0.3-0.5, 딸/0.5-1.0, 올/0.5-0.7)</div>
+
+    <hr class="divider">
+
+    <h3>여구(LR-5) 자침깊이 & 기타 포인트</h3>
+    <p>여구는 시험에 나오는 것이 자침깊이만 나온다. 기본/흰: 기본을 0.3-0.5, 올치: 0.5-0.7, 오빠: 0.5-0.8, 딸딸이: 0.5-1.0, 딸딸이2: 1.0-1.5</p>
+    <p>여구는 기본이다. 횡자, 연피자. 연피자는 여구밖에 없다. 두유도 횡자를 하지만 두유도 횡자라고 안한다. 뼈에 닿는 면을 연피자라는 말을 잘 쓴다.</p>
+
+    <hr class="divider">
+
+    <h3>경부(SCM) 혈자리 (천용·인영·수돌 etc.)</h3>
+    <p>흉쇄유돌근(SCM). 아담스애플을 후두융기=결후방이라고 한다. 후결 = 후두융기 결후방의 약자 = 아담스애플.</p>
+    <p>용·인·수는 흉쇄유돌근 앞에 있다. 딱 3개밖에 없다. 3개중 아담스애플의 수평에 있는 것이 인영. 후연에 있으면서 아담스애플 수평이 있는 것은 부돌.</p>
+    <p>흉쇄유돌근 후연에 있는 3개혈은 유·창·정 (유天유·창천창·정天정). 인영: 위경, 부돌: 대장경, 천창: 소장경.</p>
+  </div>
+</div>
+
+<!-- ===================== 6. 경락 ===================== -->
+<div class="section s6" id="sec6">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">🔗</span>
+    <span class="sec-title">경락 — 12경락 병후·기경팔맥·교회혈</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>12경락 병후 (각 경락의 병후 키워드)</h3>
+    <table class="tbl">
+      <tr><th>경락</th><th>병후 키워드</th></tr>
+      <tr><td>폐경</td><td>해수</td></tr>
+      <tr><td>대장경</td><td>치통</td></tr>
+      <tr><td>위경</td><td>이기 (쉽게 배가 고품)</td></tr>
+      <tr><td>비경</td><td>황달</td></tr>
+      <tr><td>심경</td><td>불·도 (불면, 도한)</td></tr>
+      <tr><td>소장경</td><td>목황 (Yellow sclera: 흰자위 공막부위가 노란 것)</td></tr>
+      <tr><td>방광경</td><td>학·영 (학질과 영풍유류, 바람 맞는다, 눈물이 흐른다)</td></tr>
+      <tr><td>신경</td><td>기·족 (기천, 족심열)</td></tr>
+      <tr><td>심포경</td><td>포·심·액 (심번, 심장부위가 답답하면서 꽉 막힌 것, 액하종)</td></tr>
+      <tr><td>삼초경</td><td>이명</td></tr>
+      <tr><td>담경</td><td>구고</td></tr>
+      <tr><td>간경</td><td>산기 (배가 쪼그라 들면서 배가 아픈 것)</td></tr>
+    </table>
+    <div class="tip-box">목황과 황달 다른 것 알아야 한다. 소장 = 공막만 노란 것. 황달 = 눈, 소변이 다 노란 것. 경맥암기법 프린트물 7번: 목내외자로 간 것은 소장.</div>
+
+    <hr class="divider">
+
+    <h3>기경팔맥 기시혈 & 병후</h3>
+    <table class="tbl">
+      <tr><th>기경</th><th>기시혈</th><th>주요 병후</th></tr>
+      <tr><td>양교맥</td><td>신맥 (외과 정하방)</td><td>족외번, 불면, 목내자, 전간, 요배통</td></tr>
+      <tr><td>음교맥</td><td>조해 (내과하 1촌)</td><td>족내번</td></tr>
+      <tr><td>양유맥</td><td>금문 (입방골, 뼈중에 나오는 혈. 금문밖에 없다)</td><td>오한발열</td></tr>
+      <tr><td>음유맥</td><td>축빈 (태계 상 5촌)</td><td>심통</td></tr>
+    </table>
+    <div class="alert-box">
+      <strong>기경팔맥의 병후 불면:</strong> 족외번과 불면이 나오면 양교맥. 음교맥이 되려면 기면이나 다면. 족외번+불면 = 양교맥 답 4. 보기①독맥의 주치는 척추문제. 척추만 나오면 독맥. 보기②충맥이 답이 되려면 기천, 천식, 복내구급통이 나와야 함.
+    </div>
+
+    <hr class="divider">
+
+    <h3>교회혈 정리</h3>
+    <table class="tbl">
+      <tr><th>기경</th><th>교회내용</th></tr>
+      <tr><td>양교</td><td>육삼빌딩 (육양경-삼초). 조해(KD6), 정명(UB1), 교신(KD8)-음교는 신방에서</td></tr>
+      <tr><td>음교</td><td>조해(KD6), 정명(UB1), 교신(KD8)-음교는 신방에서</td></tr>
+      <tr><td>양유</td><td>육양경-대+독(육대독자)</td></tr>
+      <tr><td>음유</td><td>축빈(KD9), 충문(RN12), 부사(SP13), 대혁(KD12), 복애(SP16), 기문(Lv14), 천돌(RN22), 염천(RN23) → 족삼음+임 니다</td></tr>
+    </table>
+
+    <hr class="divider">
+
+    <h3>설과 관련되는 경락</h3>
+    <p>설과 관련된 경락(경맥+낙맥) = 경락이다. 경락은 경맥과 낙맥이 들어가야 함.</p>
+    <p>12경맥: 비신. 12경별: 빙신(비·신). 15낙맥: 심. 12경근: 삼초·방광. 이게 설과 관계되는 경락법.</p>
+
+    <hr class="divider">
+
+    <h3>맥(脈) 진단 기초</h3>
+    <p><strong>맥을 보는 방법:</strong> 왼쪽=좌(혈), 오른쪽=우(기). 촌과 관의 사이는 0.9촌, 관과 척 사이는 1촌. 왼쪽의 촌=심장, 관=간, 척=신.</p>
+    <table class="tbl">
+      <tr><th></th><th>좌 (혈)</th><th>우 (기)</th></tr>
+      <tr><td>촌</td><td>심/심포</td><td>폐</td></tr>
+      <tr><td>관</td><td>간/담</td><td>비/위</td></tr>
+      <tr><td>척</td><td>신·소장·방광 (신음, 좌척만)</td><td>신양(우척만)·대장·삼초</td></tr>
+    </table>
+    <div class="tip-box">시험에 허리가 차고 부종 → 오른쪽 척맥이 나와야 함. 우척맥이 나오면 거의 다 신양허. 좌척맥이면 신음이나 방광이다. 조심해라 간신배 우표비사.</div>
+    <p>면색같은 경우: 청색 밑에 녹색이 하나 더 있다 (청록색이라고 볼 수 있다). 간통한풍어. 적색은 실열·허열로 나뉨. 황색은 황비습. 흑색 = 검정고무신 안신어 (하안 고무신이 좋지 검정고무신은 안 신는다).</p>
+    <p>완맥 = 비허에도 나온다. (암기법)緩脈의 완은 완삿. 비허는 비어 비허는 습이 많다.</p>
+  </div>
+</div>
+
+<!-- ===================== 7. 진단 ===================== -->
+<div class="section s7" id="sec7">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">👁️</span>
+    <span class="sec-title">설진·면진·내상칠정 진단</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>설진 완전 정리</h3>
+    <p>다 외워야 한다. 괘양설을 다 외워야 한다.</p>
+    <table class="tbl">
+      <tr><th>설상</th><th>의미</th></tr>
+      <tr><td>설홍소태 (소.무.건)</td><td>500% 음허 (허열)</td></tr>
+      <tr><td>설홍유태, 황태</td><td>실열</td></tr>
+      <tr><td>창백한 혀 (담백)</td><td>첫번째 생각하는게 "혈허"다. 양허도 됨. 기허>혈허.</td></tr>
+      <tr><td>설첨이 빨간색</td><td>심화. 무조건 하나. 또 하나 나오면 소장실열.</td></tr>
+      <tr><td>설홍짝갈라지는 사람</td><td>다 음허다</td></tr>
+      <tr><td>퇴색한 백색</td><td>물질부족으로 열이 뜬 음허</td></tr>
+    </table>
+    <div class="tip-box">
+      <strong>열문설:</strong> 비: 비기허 환자가 열문이 있다. 치흔이 비기허. 가로로 횡열문이 치흔. 비기허.
+      <br><strong>혈: 혈허</strong>. 열: 열성상진. (盛字는 熱이 심하다) 진액이 손상된 것. 정상: 위음허.
+      <br>열문은 첫번째로 위음허를 생각해야 한다. 대표적인 증상: 위음허. 반 먹고 들어간다. 혀 중간에 갈라진 것이 위음허인데, 설첨까지 갈라졌다면 심신불교.
+    </div>
+    <p>주위가 하얀색이냐 빨간색이냐: 흰색이면 심신음허. 빨간색은 심화. 무조건 하나. 또 하나 나오면 소장실열.</p>
+    <p><strong>목자:</strong> 눈의 양쪽 끝. 목내자·목외자. 둘 다 관련된 장부는 심장. 목자가 붉다면 심열.</p>
+
+    <h3>내상칠정 (7가지 감정 → 장부 영향)</h3>
+    <table class="tbl">
+      <tr><th>감정</th><th>영향 장부</th><th>키워드</th></tr>
+      <tr><td>공(恐) 정경기</td><td>신장</td><td>아기가 유괴되어… 신기정</td></tr>
+      <tr><td>경(驚) 공정경기</td><td>신장</td><td>놀라면 기가 손상된다</td></tr>
+      <tr><td>슬픔 (悲)</td><td>폐(肺)</td><td>아버지가 죽고, 슬픔에 찬...</td></tr>
+      <tr><td>기쁨 (喜)</td><td>심(心)</td><td>너무 기쁜 나머지 편두통…심</td></tr>
+      <tr><td>노(怒)</td><td>간(肝)</td><td>화가 나면 간이 위를 친다</td></tr>
+    </table>
+    <div class="tip-box"><strong>내상칠정과 가장 관계가 깊은 장부:</strong> 심, 폐, 신이 시험에 잘 나온다. 답은 폐. 공이면 정이 손상되고, 경(놀라면) 기가 손상된다. 암기법: 공정경기.</div>
+
+    <h3>현훈 4대증상</h3>
+    <p>현훈 4대 증상: 어·서·화·담·허·풍. 메니에르 증후군 = 빈진오오이온. 메니에르 6대방제: 반하백출전마탕·진무탕·오수유탕·오령산·이진탕·온담탕.</p>
+    <p>현훈부터 밑으로 내과변증.</p>
+
+    <h3>양강부도 (양기부전)</h3>
+    <p>양강부도: 발기가 잘 되는데 1시간내에 사정을 못하는 것 = 간기울결이나 간화가 이유.</p>
+
+    <h3>당뇨 침자리</h3>
+    <p>당뇨는 이침이 좋다. 폐와 갈점이 잘 나온다. 참고: 요기는 간질의 요혈 (암기법)요기야 일이와. 1-2촌까지 들어간다. 뼈는 항상 횡자니까. 요기의 자침법: 상향횡자.</p>
+    <p>다시 당뇨: 중요한건 (암기법)갈기고. 갈점·기점(헝거)·고(고혈압). 이문·청궁·청회 쪼금 앞에 있는 것. 방제: 비기허일 때는 사군자 / 위열일 때는 백호탕 / 신음허일 때는 육미지황탕 / 신양허일 때는 금궤신기환.</p>
+  </div>
+</div>
+
+<!-- ===================== 8. 오행치료 ===================== -->
+<div class="section s8" id="sec8">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">🧬</span>
+    <span class="sec-title">오행치료법 — 모자보사법·타경보사법·오수혈</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>모자보사법 핵심</h3>
+    <p>木이 시험에 나오면 오행으로 풀어야 한다는 것. 오행에서 시험에 잘 나오는 것이 모자보사법.</p>
+    <div class="alert-box">
+      <strong>목은 실즉자사관보… (무조건 외워야 한다):</strong> 아들을 사하고, 관(할머니이면서 나를 극하는 장부)補 하하면 허즉모보관사 = 이거 무조건 외워야 한다.
+    </div>
+    <p><strong>목이 실하다면:</strong> 아들을 사해줘야 한다. 그래서 화를 사한다. 그리고 할머니는 보한다. 금을 보한다.</p>
+    <p>목이 실하다면에서 혈자리는? 음경인지 양경인지 먼저 구별한다. 음경 = 목화토금수 / 양경 = 금수목화토.</p>
+    <p>목은 간과 밀접. 음경은 음질. 간과 밀접. 금은 폐와 밀접. 양경은 기니까 폐와 밀접.</p>
+    <p>오수혈의 간: 대돈·행간·태충·중봉·곡천. 실하다면, 아들을 사해서 행간을 사한다. 할머니를 보니까 중봉을 보. 이런 방법을 본경보사법, 또는 자경보사법이라고 한다.</p>
+
+    <hr class="divider">
+
+    <h3>타경보사법 (이경보사법)</h3>
+    <p>간의 경락이외의 경락을 보사해야 한다. 목의 경우, 화경과 금경을 보사해야 한다. 화경은 4개나 있다. 심장·심포. 그리고 표리경인 소장·삼초. 그래서 4개를 해야 한다.</p>
+    <p><strong>간이 실했을 때의 타경보사법(이경보사법):</strong> 심경은 음경(목화토금수) → 소충·소부·신문·영도·소해. 자식인 화혈의 소부 瀉. 수궐음심포경 = 목화토금수 → 중충·노궁·대릉·간사·곡택인데, 자식인 화혈의 노궁 瀉.</p>
+
+    <hr class="divider">
+
+    <h3>선극후보 (약해지는 순서)</h3>
+    <p>목이 실하다, 금이 약해지고 토이 약해진다. 순서가 이렇다. 先克後侮(약해지는 순서).</p>
+    <p>목이 허하다면? 금가 강해지고 토이 강해지고. (순서에 유의)</p>
+    <p>예: 심이 허하다면? 소충 보. 예2: 폐가 실하다면? 척택사.</p>
+    <p>이거만 외우면 CA건 NCCAOM도 다 커버한다. 이렇게 문제가 안나오면, 위의 전 방법으로 해야 하고...</p>
+    <div class="tip-box">
+      <strong>목이 허하다면?</strong> No.1: 자식인 화가 약해짐. No.2: 금이 강해짐. No.3: 토가 강해짐.
+    </div>
+
+    <hr class="divider">
+
+    <h3>오행 뉴트리션</h3>
+    <p>오행 뉴트리션의 기본은 자기를 보하는 것 (이번에 업데이트). 먼저 자기를 보한다.</p>
+    <p>예: 식욕부진, 변당, 설사? 脾氣虛니까, 비를 먼저 보해야 한다. 뉴트리션이니까 어떤 음식? 쌀·씨리얼·생강차 (쌀씨생). 생강차는 임신부 구토에도 좋다.</p>
+    <table class="tbl">
+      <tr><th>오행</th><th>곡식 (맥두도마서)</th><th>육류 (양계우견마돈)</th></tr>
+      <tr><td>목(木)</td><td>보리(맥)</td><td>양(羊)</td></tr>
+      <tr><td>화(火)</td><td>콩(두)</td><td>계(닭)</td></tr>
+      <tr><td>토(土)</td><td>쌀(도)</td><td>우(쇠고기)</td></tr>
+      <tr><td>금(金)</td><td>마(산약)</td><td>견(개) / 마(말)</td></tr>
+      <tr><td>수(水)</td><td>서(기장)/수수</td><td>돈(돼지)</td></tr>
+    </table>
+    <p>맛: 산·고·감·신·함. 교회혈. 임맥 = 양교에서 육양경에서 삼초를 빼는 의미 (육양경 - 삼초). 목소리가 이상할 때는 경혈을 써라.</p>
+  </div>
+</div>
+
+<!-- ===================== 9. 케이스 ===================== -->
+<div class="section s9" id="sec9">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">📋</span>
+    <span class="sec-title">NCCAOM 케이스 스터디 총정리</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <div class="block">
+      <div class="block-title">케이스 풀이 원칙</div>
+      <p>이렇게 나이가 나오면 장부변증. 첫줄에서 키워드가 나온다. 시험문제에서 "갑자기", "특히"... 이런게 나오면 앞의 말들은 다 필요없다.</p>
+      <p>병명이 나오면 내과변증. 근데 38세여자가 파곤, 가슴이 뛰고 하면 장부변증. 그래서 시험은 첫줄이 필요하다. 병명, 중풍이런게 나오면 내과변증. 기나 혈이나 기허변증 이런게 나오면 장부변증. 변증은 두개. 장부변증과 내과변증.</p>
+    </div>
+
+    <h3>케이스 문제 핵심 키워드별 진단</h3>
+
+    <div class="q">영어가 안돼서 미국사람만 보면 놀랜다 → 스트레스 = <span class="ans">간기울결. 월경이 나오면 간</span></div>
+    <div class="q">설변이 자색 → <span class="ans">어혈 500%. 케이스에서 자색이면 어혈이다.</span></div>
+    <div class="q">얼굴색깔이 청색이라면 → <span class="ans">생리통에 문제가 있는데 혈한인데, 혈한은 한증이 아니라, 핏속의 한으로 인해서 피가 천천히 가다가 정체가 된다. 그래서 혈한은 한으로 인한 어혈이라고 봐야 한다.</span></div>
+    <div class="q">월경이 종류가 많다 → 장부는 <span class="ans">간과 가장 밀접</span></div>
+    <div class="q">물을 마시고 싶지만 마시지 않는다 (구갈불욕음) → <span class="ans">음허나 습열 두 가지 밖에 없다</span></div>
+    <div class="q">밥 하나 하나 먹고 깨작거리는 사람 → <span class="ans">음허</span></div>
+    <div class="q">방귀냄새가 심하면 → <span class="ans">열</span></div>
+    <div class="q">便이 무르고 가늘다, 국수. 국수나 연필처럼 가늘게 나온다면 → <span class="ans">무조건 비기허다. 완벽한 비기허</span></div>
+    <div class="q">몸이 움직이기 싫다 → <span class="ans">기허</span></div>
+    <div class="q">설태백니, 맥지활 → <span class="ans">한습곤비</span></div>
+    <div class="q">설홍, 무태, 맥세삭 → <span class="ans">음허</span></div>
+    <div class="q">설홍유태, 황태, 맥현삭 → <span class="ans">간담습열</span></div>
+    <div class="q">충격을 받았다 → <span class="ans">간화다</span></div>
+
+    <hr class="divider">
+
+    <h3>선기·후기 (월경 주기)</h3>
+    <p>선기(先期): 빠르다. 21, 20, 19, 18, 17일. 후기(後期): 28+7≒35, 36, 37, 40, 60. 선후부정기는 자기 맘대로. 선후부정기는 간울, 신허이다.</p>
+    <p>선기는 허증 아니면 실증인데, 기허 아니면 혈열. 이게 崩漏. 월경선기와 봉루와 매치를 잘한다.</p>
+    <div class="tip-box">봉루 = 기허봉루: 피가 나오는데 열이 없으면 → 귀비탕. 열이 있으면 혈열. 고경환. 암기법: 봉루는 고귀하다.</div>
+    <p>후기: 물질이 부족하거나, 나올게 없으니까. 그래서 血虛, 寒, 氣滯, 瘀血.</p>
+
+    <hr class="divider">
+
+    <h3>임산부 설진 포인트</h3>
+    <p>임산부 얼굴이 청색이거나, 혀가 청색은 확연히 다르다. 혀가 청색은 태아의 문제. 유산의 문제가 있을 수 있다. 입안에 설, 태아는 복중이라 일맥상통. 얼굴이 청색이면 양허가 심하거나 한증이 심한 환자.</p>
+    <p>맥: 간통학담. 간병, 통증, 학질, 담음. 현맥은 간통했다해서 간병, 통증.</p>
+    <div class="tip-box">계지복령환 (NCCA에선 소복축어탕). 어혈에 도핵승기탕·혈부축어탕·계지복령환·온경탕·생화탕·단삼음의 6개 중에서 딱 나온다.</div>
+
+    <hr class="divider">
+
+    <h3>한사가 잘 침범하는 장기 & 범위</h3>
+    <p>위·대장·자궁으로 한사가 잘 온다. 자궁으로 오면 하복통이 온다. 그러면서 어혈증상이 수반된다. 이게 溫經湯. 그래서 임신이 힘들다.</p>
+    <p>한사가 위까지 왔으면 배가 아프고 한사가 대장까지 오면 설사. 배만 아프면 한사범위고, 설사면 대장까지 온거다. 6음(6사): 풍·한·서·습·조·화.</p>
+    <p>한사범위 vs 비양허: 둘 다 성질이 같다. 배가 차니까 비양허인데... 변이 형태가 없으면 비양허.</p>
+    <p>한사가 방광으로 들어오면? 소변불리다. 이게 五苓散.</p>
+    <p>한사가 상초로도 간다면? 폐에 한사가 오면 이게 감기. 한사가 페를 침범하는 것이 풍한속페의 방제는 계지탕이 최고.</p>
+  </div>
+</div>
+
+<!-- ===================== 10. 침뜸부항 ===================== -->
+<div class="section s10" id="sec10">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">🔥</span>
+    <span class="sec-title">침·뜸·부항 치료</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>부항 공효</h3>
+    <div class="tip-box">
+      <strong>부항 공효 (공통된 효능, 주치가 아니다):</strong> 온·통·거·한·소·행이다 (온경, 통락, 거습, 축한, 소종지통(소종생기), 행기활혈)
+    </div>
+
+    <h3>뜸 공효 (부·인·온·예)</h3>
+    <p>뜸의 공효: 부·인·온·예. 扶陽固脫·引道氣脫·溫經散寒·예방보건. 탈혈한건(탈혈·한·건·경)</p>
+    <table class="tbl">
+      <tr><th>구법/격강구 질환</th><th>방제</th></tr>
+      <tr><td>비위허한, 설사, 복통, 비한, 관절통</td><td>이중환 (격강구: 복사비관)</td></tr>
+      <tr><td>사지냉, 이질 (대한, 망양, 요제통, 하리, 급성복통, 급성설사, 산통, 지냉, 복맥)</td><td>사역탕 (격염구: 소금장수가 대망의 요리책을 급히 복사하다 산통난 지복)</td></tr>
+      <tr><td>창양초기</td><td>격산구: 산적이 독창으로 나를 폐. 적괴·독사교상·창양·나력·페로</td></tr>
+      <tr><td>나력, 연주창 (경부임파선염)</td><td>격산구</td></tr>
+      <tr><td>발기부전증</td><td>부자병구</td></tr>
+    </table>
+
+    <h3>뜸 질환별 처방</h3>
+    <div class="q">비위허약, 설사, 복통? <span class="ans">격강구. 격강구: 복사비관 (복통·설사·비한·관절통). 방제: 이중환.</span></div>
+    <div class="q">사지냉, 이질? <span class="ans">격염구. 격염구: 소금장수가 대망의 요리책을 급히 복사하다 산통난 지복. 방제: 사역탕.</span></div>
+    <div class="q">관절산통? <span class="ans">격강구. 격강구 = 복사비관이라 격강구. 복통·설사·비한·관절통. 방제: 이중환.</span></div>
+    <div class="q">창양초기? <span class="ans">격산구: 산적이 독창으로 나를 폐. 적괴(복중에)·독사교상(뱀에게 물렸을 때 효과를 본다)·창양·나력·페로</span></div>
+    <div class="q">대한, 망양? <span class="ans">격염구. 망양의 넘버원이 사역탕.</span></div>
+    <div class="q">나력, 페로? <span class="ans">나력: 연주창이라고 해서 경부임파선 염. 나력·연주창·인파선염이다. 페로(폐결핵 환자)·임파선염이 격산구.</span></div>
+    <div class="q">명문화쇠로 양위·조설? <span class="ans">부자병구. 명문화쇠: 명문의 불이 약해졌다. 명문은 신양이 부족하니까 양위·조설이 있고 비양허를 유발한다. 그래서 식욕이 없고 소화도 안된다.</span></div>
+    <div class="q">독사교상, 복중적괴? <span class="ans">격상구</span></div>
+    <div class="q">복통, 설사, 이질, 산통? <span class="ans">복통, 설사, 이질 산통이 들어가면 격염구. 이질은 하리로 봐야 한다.</span></div>
+    <div class="q">몸에 두드러기? <span class="ans">가려움 같은거니까 瘡瘍. 痒이 소양증. 瘡은 부스럼. 그래서 격산구</span></div>
+    <div class="q">실증, 열증? <span class="ans">실증, 신고후 혈열: 실증·종창·신혼·고열·인후통·열증·충혈. 삼릉침</span></div>
+
+    <h3>침을 무서워하는 환자</h3>
+    <p>침을 무서워하는 사람에겐 침을 놓지 않는다가 정답. 그래서 이런 사람은 500mg Magnet을 쓴다. 패치를 붙힌다. 뜸도 좋다.</p>
+
+    <h3>유선염 (유옹)</h3>
+    <p>유선염 = 유옹: 기문과 옥예중에 옥예가 잘 나온다. 시험에. 옥예야 이사가자. 위치: 2늑간 4촌. 회유: 맥아, 곡아(쌀겨를 튀긴 것), 대황(10분 이내를 끓여야 한다).</p>
+    <p>구설생창이 생길 수 있는 경우: 심화·소장실열·방광실열. 황련아교탕도 나올 수 있다.</p>
+  </div>
+</div>
+
+<!-- ===================== 11. 해부 ===================== -->
+<div class="section s11" id="sec11">
+  <div class="section-header" onclick="toggle(this)">
+    <span class="sec-icon">🦴</span>
+    <span class="sec-title">해부·신경 — 수근관증후군·신경·경락해부</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>수근관 증후군 (Carpal Tunnel Syndrome)</h3>
+    <p>검사방법은 딱 3가지. 영어로 외워야 한다. 시험에도 영어로 나온다.</p>
+    <div class="card-grid">
+      <div class="card"><div class="card-label">Phalen's Test (팔렌검사)</div><div class="card-value">구부리려니까 힘들다. C7에서 압박.</div></div>
+      <div class="card"><div class="card-label">Tinel Sign (티넬싸인)</div><div class="card-value">망치로 두드리는 것을 티넬싸인.</div></div>
+      <div class="card"><div class="card-label">Thumb Abduction (무지외전)</div><div class="card-value">b 중심에서 밖으로 = 외전(abduction)</div></div>
+    </div>
+    <div class="tip-box">Test = 검사를 하는 것. 싸인 = 증후를 보는 것. 문고리 돌릴 때 아프면 수근관증후군. SLR 검사법: 요통·좌골신경통 검사법.</div>
+
+    <hr class="divider">
+
+    <h3>경추 신경 & 손가락</h3>
+    <table class="tbl">
+      <tr><th>손가락</th><th>신경</th></tr>
+      <tr><td>1, 2번째 반 (1, 2½지)</td><td>C6 요골신경</td></tr>
+      <tr><td>2½, 3, 4½ (2번째반부터 3번째, 4번째 반)</td><td>C7 정중신경 (세번째 손가락만 들어가면 정중신경)</td></tr>
+      <tr><td>4½, 5</td><td>C8 척골신경(Ulnar)</td></tr>
+    </table>
+    <div class="tip-box">정리: 3지가 나오면 무조건 C7 (시험용). 보기에 3지가 나오면 모두 답이 3지라서 답이 C7.</div>
+
+    <hr class="divider">
+
+    <h3>흉곽출구증후군 (Thoracic Outlet Syndrome)</h3>
+    <p>C8-T1이 팔쪽으로 가는데 이게 압박이 되서 아픈 것. C8은 새끼손가락부터 팔꿈치까지 간다. T1은 안쪽 이두박근쪽이 아픈 것.</p>
+
+    <hr class="divider">
+
+    <h3>레이노 현상 (Raynaud)</h3>
+    <p>사지말단으로 경란을 일으켜 아프다. 한증으로 인해서. 젊은 여자 20대 여자는 레이노가 많다.</p>
+
+    <hr class="divider">
+
+    <h3>수삼리 & 족삼리 동맥</h3>
+    <p>수오리: 요측 부동맥. 다리엔 족오리가 있다. 기충 下 3촌. 수삼리는 곡지 밑으로 2촌, 족삼리는 독비 밑으로 3촌.</p>
+    <p><strong>수삼리는 요측반회동맥 Radial Recurrent Artery.</strong> 곡지와 더불어서 요측반대로 회전한다(반회). 암기법: 3오리가 날라다닌다. 오리부동(암기법).</p>
+
+    <hr class="divider">
+
+    <h3>수근골 삼각골 & 경락</h3>
+    <div class="q">수근골 중 삼각골과 관련이 있는 경은? <span class="ans">소장경. 완골(SI-4)·양곡(SI-5). 경맥암기법 프린트물 29번.</span></div>
+    <div class="q">요골과 척골사이를 통과하는 경맥은? <span class="ans">삼초. 바깥의 양경으로써 요골과 척골사이로는 삼초경이 지나간다. 표리경은 심포.</div>
+
+    <hr class="divider">
+
+    <h3>목내외자 & 경락</h3>
+    <div class="q">목내외자로 모두 가는 경은? <span class="ans">소장. 목내자=정명, 목외자=동자료. 동자료의 목외자는 삼소담. 소장이 공통으로 들어간다.</span></div>
+    <p>목황과 황달이 다른 것. 소장=공막만 노란 것. 황달=눈, 소변이 다 노란 것.</p>
+
+    <hr class="divider">
+
+    <h3>Giardia균</h3>
+    <p>캠핑 후 목마르고 물을 먹으면, 복창, 인건, 실기후 호전. 방귀끼고 지랄이네(암기법).</p>
+    <p>라식스 부작용: 칼륨부족. 프레드린솔로 부작용: 근육 무력증. 무진장성 발작: 小兒들. 염증을 유발하는 PBSH: Prostaglandin, Bradykinin, Serotonin, Histamine.</p>
+
+    <hr class="divider">
+
+    <h3>12경맥 공통주치 (수삼양·족삼양·수삼음·족삼음)</h3>
+    <table class="tbl">
+      <tr><th>구분</th><th>공통주치</th><th>구성 경락</th></tr>
+      <tr><td>수삼양</td><td>인후, 열병</td><td>대·삼·소</td></tr>
+      <tr><td>족삼양</td><td>신지병, 열병</td><td>방·위·담</td></tr>
+      <tr><td>수삼음</td><td>흉부병</td><td>폐·심포·심</td></tr>
+      <tr><td>족삼음</td><td>음기(전음과 후음이 있는데 전음), 부인과병</td><td>간·비·신</td></tr>
+    </table>
+    <div class="tip-box">1번은 눈병이니까 족삼양. 방위담이니까 눈을 치료할 수 있겠다. 3번이 흉부병. 수삼음.</div>
+
+    <hr class="divider">
+
+    <h3>이하선염 & 유선염 혈위</h3>
+    <p>이하선염 = 유옹: 기문과 옥예중에 옥예가 잘 나온다. 시험에. 옥예야 이사가자. 위치: 2늑간 4촌.</p>
+    <p>안태본초 시험에 잘 나오는 본초: 애엽·자소엽.</p>
+    <p>웅종창양: 금은화·살모넬라·연쇄상구균(금쌀연). 연교·쉬겔라·포도상구균(연쉬포). 금은화와 연교 비교: 금은화는 살모넬라의 식중독균을 잘 잡는다. 연교는 쉬겔라 (녹음침조). 오미자는 표증 금기자 본초. 표증 금기방제: 이중환·생맥산·도핵승기탕·백합고금탕.</p>
+  </div>
+</div>
+
+</main>
+
+<script>
+function toggle(header) {
+  header.parentElement.classList.toggle('open');
+}
+function toggleAll() {
+  const sections = document.querySelectorAll('.section');
+  const anyOpen = [...sections].some(s => s.classList.contains('open'));
+  sections.forEach(s => {
+    if (anyOpen) s.classList.remove('open');
+    else s.classList.add('open');
+  });
+}
+// Open first section by default
+document.querySelector('.section').classList.add('open');
+</script>
+</body>
+</html>
